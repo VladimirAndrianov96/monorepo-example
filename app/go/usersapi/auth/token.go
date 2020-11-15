@@ -3,7 +3,7 @@ package auth
 import (
 	"errors"
 	"fmt"
-	"go-ddd-cqrs-example/api/server"
+	"go-ddd-cqrs-example/usersapi/server"
 	"go-ddd-cqrs-example/domain/models/user"
 	"golang.org/x/crypto/bcrypt"
 	"log"

@@ -1,10 +1,10 @@
 package routes
 
 import (
-	"go-ddd-cqrs-example/api/controllers/login_controller"
-	user_controller "go-ddd-cqrs-example/api/controllers/user"
-	"go-ddd-cqrs-example/api/middlewares"
-	"go-ddd-cqrs-example/api/server"
+	"go-ddd-cqrs-example/usersapi/controllers/login_controller"
+	user_controller "go-ddd-cqrs-example/usersapi/controllers/user"
+	"go-ddd-cqrs-example/usersapi/middlewares"
+	"go-ddd-cqrs-example/usersapi/server"
 )
 
 func InitializeRoutes(s *server.Server) {

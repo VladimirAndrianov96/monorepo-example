@@ -2,9 +2,9 @@ package middlewares
 
 import (
 	"errors"
-	"go-ddd-cqrs-example/api/auth"
-	"go-ddd-cqrs-example/api/responses"
-	"go-ddd-cqrs-example/api/server"
+	"go-ddd-cqrs-example/usersapi/auth"
+	"go-ddd-cqrs-example/usersapi/responses"
+	"go-ddd-cqrs-example/usersapi/server"
 	"log"
 	"net/http"
 )

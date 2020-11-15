@@ -1,4 +1,4 @@
-//mockgen -destination=mocks/http_client.go -package=mocks go-ddd-cqrs-example/api/context HTTPClient
+//mockgen -destination=mocks/http_client.go -package=mocks go-ddd-cqrs-example/usersapi/context HTTPClient
 package server
 
 import (

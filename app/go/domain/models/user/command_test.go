@@ -8,8 +8,8 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/spf13/viper"
-	"go-ddd-cqrs-example/api/cmd/config"
-	"go-ddd-cqrs-example/api/utils"
+	"go-ddd-cqrs-example/usersapi/cmd/config"
+	"go-ddd-cqrs-example/usersapi/utils"
 	domain_errors "go-ddd-cqrs-example/domain/errors"
 	"go-ddd-cqrs-example/domain/models/user"
 	"os"
@@ -34,7 +34,7 @@ var _ = Describe("Managing users", func() {
 
 	// Set up database connection using configuration details.
 	cfg := config.Config{}
-	viper.AddConfigPath(dir+"/api/cmd/config")
+	viper.AddConfigPath(dir+"/usersapi/cmd/config")
 	viper.SetConfigName("configuration")
 	viper.ReadInConfig()
 	viper.Unmarshal(&cfg)

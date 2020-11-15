@@ -6,10 +6,10 @@ import (
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/spf13/viper"
-	"go-ddd-cqrs-example/api/routes"
-	"go-ddd-cqrs-example/api/cmd/config"
-	"go-ddd-cqrs-example/api/server"
-	"go-ddd-cqrs-example/api/utils"
+	"go-ddd-cqrs-example/usersapi/routes"
+	"go-ddd-cqrs-example/usersapi/cmd/config"
+	"go-ddd-cqrs-example/usersapi/server"
+	"go-ddd-cqrs-example/usersapi/utils"
 	"go-ddd-cqrs-example/domain/models/user"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -54,7 +54,7 @@ func initLogger() error {
 
 func loadConfiguration() error {
 	// Load up configuration.
-	viper.AddConfigPath("./api/cmd/config")
+	viper.AddConfigPath("./usersapi/cmd/config")
 	viper.SetConfigName("configuration")
 
 	err := viper.ReadInConfig()
@@ -143,8 +143,8 @@ func run(server *server.Server, addr string) error{
 
 	fmt.Println("Listening to " + addr)
 	err = http.ListenAndServeTLS(addr,
-		"./api/golangbackend.crt",
-		"./api/golangbackend.key",
+		"./usersapi/golangbackend.crt",
+		"./usersapi/golangbackend.key",
 		handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization", "Accept", "Accept-Language"}),
 			handlers.AllowedMethods([]string{"GET", "POST"}),
 			handlers.AllowedOrigins([]string{"*"}),

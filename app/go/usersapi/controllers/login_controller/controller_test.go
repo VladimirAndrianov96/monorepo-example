@@ -10,11 +10,11 @@ import (
 	"github.com/onsi/gomega"
 	. "github.com/onsi/gomega"
 	"github.com/spf13/viper"
-	"go-ddd-cqrs-example/api/cmd/config"
-	"go-ddd-cqrs-example/api/controllers/login_controller"
-	"go-ddd-cqrs-example/api/routes"
-	"go-ddd-cqrs-example/api/server"
-	"go-ddd-cqrs-example/api/utils"
+	"go-ddd-cqrs-example/usersapi/cmd/config"
+	"go-ddd-cqrs-example/usersapi/controllers/login_controller"
+	"go-ddd-cqrs-example/usersapi/routes"
+	"go-ddd-cqrs-example/usersapi/server"
+	"go-ddd-cqrs-example/usersapi/utils"
 	"go-ddd-cqrs-example/domain/models/user"
 	"net/http"
 	"net/http/httptest"
@@ -39,7 +39,7 @@ var _ = Describe("Login controller", func() {
 
 	// Set up database connection using configuration details.
 	cfg := config.Config{}
-	viper.AddConfigPath(dir+"/api/cmd/config")
+	viper.AddConfigPath(dir+"/usersapi/cmd/config")
 	viper.SetConfigName("configuration")
 	viper.ReadInConfig()
 	viper.Unmarshal(&cfg)
@@ -167,7 +167,7 @@ var _ = Describe("Login controller", func() {
 					requestBody, err := json.Marshal(loginRequest)
 					Expect(err).To(gomega.BeNil())
 
-					req, err := http.NewRequest("POST", "/api/login", bytes.NewBufferString(string(requestBody)))
+					req, err := http.NewRequest("POST", "/usersapi/login", bytes.NewBufferString(string(requestBody)))
 					Expect(err).To(gomega.BeNil())
 
 					rr := httptest.NewRecorder()

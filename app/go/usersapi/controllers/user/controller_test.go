@@ -11,12 +11,12 @@ import (
 	"github.com/onsi/gomega"
 	. "github.com/onsi/gomega"
 	"github.com/spf13/viper"
-	"go-ddd-cqrs-example/api/auth"
-	"go-ddd-cqrs-example/api/cmd/config"
-	user_controller "go-ddd-cqrs-example/api/controllers/user"
-	"go-ddd-cqrs-example/api/routes"
-	"go-ddd-cqrs-example/api/server"
-	"go-ddd-cqrs-example/api/utils"
+	"go-ddd-cqrs-example/usersapi/auth"
+	"go-ddd-cqrs-example/usersapi/cmd/config"
+	user_controller "go-ddd-cqrs-example/usersapi/controllers/user"
+	"go-ddd-cqrs-example/usersapi/routes"
+	"go-ddd-cqrs-example/usersapi/server"
+	"go-ddd-cqrs-example/usersapi/utils"
 	"go-ddd-cqrs-example/domain/models/user"
 	"net/http"
 	"net/http/httptest"
@@ -41,7 +41,7 @@ var _ = Describe("User controller", func() {
 
 	// Set up database connection using configuration details.
 	cfg := config.Config{}
-	viper.AddConfigPath(dir+"/api/cmd/config")
+	viper.AddConfigPath(dir+"/usersapi/cmd/config")
 	viper.SetConfigName("configuration")
 	viper.ReadInConfig()
 	viper.Unmarshal(&cfg)
@@ -148,7 +148,7 @@ var _ = Describe("User controller", func() {
 					requestBody, err := json.Marshal(registrationRequest)
 					Expect(err).To(gomega.BeNil())
 
-					req, err := http.NewRequest("POST", "/api/register", bytes.NewBufferString(string(requestBody)))
+					req, err := http.NewRequest("POST", "/usersapi/register", bytes.NewBufferString(string(requestBody)))
 					Expect(err).To(gomega.BeNil())
 
 					rr := httptest.NewRecorder()
@@ -227,7 +227,7 @@ var _ = Describe("User controller", func() {
 				}
 
 				for _, v := range samples {
-					req, err := http.NewRequest("POST", "/api/deactivate/current", bytes.NewBufferString(""))
+					req, err := http.NewRequest("POST", "/usersapi/deactivate/current", bytes.NewBufferString(""))
 					Expect(err).To(gomega.BeNil())
 
 					rr := httptest.NewRecorder()
@@ -306,7 +306,7 @@ var _ = Describe("User controller", func() {
 				}
 
 				for _, v := range samples {
-					req, err := http.NewRequest("POST", "/api/activate/current", bytes.NewBufferString(""))
+					req, err := http.NewRequest("POST", "/usersapi/activate/current", bytes.NewBufferString(""))
 					Expect(err).To(gomega.BeNil())
 
 					rr := httptest.NewRecorder()
