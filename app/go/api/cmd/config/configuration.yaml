@@ -1,0 +1,11 @@
+---
+db_host: localhost
+db_driver: postgres
+db_username: postgres
+db_password: password
+db_name: users_db
+db_port: 5432
+
+secret_key: supersecret
+
+api_address: 127.0.0.1:3000

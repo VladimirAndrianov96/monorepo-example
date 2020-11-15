@@ -1,0 +1,20 @@
+// protoc --gofast_out=. events.proto
+syntax = "proto3";
+
+package user;
+
+message UserCreated {
+  string UserID = 1;
+  string EmailAddress = 2;
+  uint32 Version = 255;
+}
+
+message UserDeactivated {
+  string UserID = 1;
+  uint32 Version = 255;
+}
+
+message UserActivated {
+  string UserID = 1;
+  uint32 Version = 255;
+}
