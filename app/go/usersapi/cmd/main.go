@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
+	bus "github.com/rafaeljesus/nsq-event-bus"
 	"github.com/spf13/viper"
 	"go-ddd-cqrs-example/domain/models/user"
 	"go-ddd-cqrs-example/usersapi/cmd/config"
@@ -107,10 +108,17 @@ func main() {
 		zap.S().Fatal(err)
 	}
 
+	eventEmitter, err := bus.NewEmitter(bus.EmitterConfig{})
+	if err != nil {
+		zap.S().Fatal(err)
+	}
+
 	srv := server.Server{}
 	srv.Port = cfg.APIAddress
 	srv.SecretKey = cfg.SecretKey
 	srv.TestAPIAddress = cfg.TestAPIAddress
+	srv.EventEmitter = *eventEmitter
+	srv.EventsTopic = cfg.EventsTopic
 
 	err = initializeAPI(
 		&srv,
@@ -131,7 +139,7 @@ func main() {
 	}
 }
 
-func run(server *server.Server, addr string) error{
+func run(server *server.Server, addr string) error {
 	defer server.DB.Close()
 
 	fmt.Println("Listening to " + addr)

@@ -11,7 +11,8 @@ type Config struct {
 
 	SecretKey string `mapstructure:"secret_key"`
 
-	APIAddress string `mapstructure:"api_address"`
-
+	APIAddress     string `mapstructure:"api_address"`
 	TestAPIAddress string `mapstructure:"test_api_address"`
+
+	EventsTopic string `mapstructure:"events_topic"`
 }

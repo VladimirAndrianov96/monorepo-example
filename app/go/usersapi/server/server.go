@@ -4,6 +4,7 @@ package server
 import (
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
+	"github.com/rafaeljesus/nsq-event-bus"
 	"io"
 	"net/http"
 )
@@ -16,10 +17,12 @@ type HTTPClient interface {
 
 // Server is a wrapper for the service context.
 type Server struct {
-	DB           *gorm.DB
-	Router       *mux.Router
-	HTTPClient HTTPClient
-	Port string
-	SecretKey string
+	DB             *gorm.DB
+	Router         *mux.Router
+	HTTPClient     HTTPClient
+	Port           string
+	SecretKey      string
 	TestAPIAddress string
+	EventEmitter   bus.Emitter
+	EventsTopic    string
 }

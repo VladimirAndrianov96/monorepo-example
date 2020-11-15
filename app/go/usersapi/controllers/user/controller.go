@@ -6,12 +6,13 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/go-ozzo/ozzo-validation/is"
 	"github.com/gofrs/uuid"
+	domain_errors "go-ddd-cqrs-example/domain/errors"
+	"go-ddd-cqrs-example/domain/models/user"
 	"go-ddd-cqrs-example/usersapi/auth"
 	"go-ddd-cqrs-example/usersapi/responses"
 	"go-ddd-cqrs-example/usersapi/server"
-	domain_errors "go-ddd-cqrs-example/domain/errors"
-	"go-ddd-cqrs-example/domain/models/user"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
@@ -33,7 +34,7 @@ func Register(server *server.Server) http.HandlerFunc {
 
 		err = validation.ValidateStruct(&registrationReq,
 			validation.Field(&registrationReq.EmailAddress, validation.Required, is.Email),
-			validation.Field(&registrationReq.Password, validation.Required, validation.Length(6,20)),
+			validation.Field(&registrationReq.Password, validation.Required, validation.Length(6, 20)),
 		)
 		if err != nil {
 			responses.ERROR(w, http.StatusUnprocessableEntity, err)
@@ -48,17 +49,21 @@ func Register(server *server.Server) http.HandlerFunc {
 
 		userCreatedEvent, err := user.Create(*server.DB, pendingUser)
 		if err != nil {
-			if errors.As(err, &user.AlreadyExists{}){
+			if errors.As(err, &user.AlreadyExists{}) {
 				responses.ERROR(w, http.StatusUnprocessableEntity, err)
 				return
-			}else{
+			} else {
 				responses.ERROR(w, http.StatusInternalServerError, nil)
 				return
 			}
 		}
 
+		if err = server.EventEmitter.Emit(server.EventsTopic, &userCreatedEvent); err != nil {
+			log.Println("error while was emitting message", err)
+		}
+
 		pkUUID, err := uuid.FromString(userCreatedEvent.UserID)
-		if err != nil{
+		if err != nil {
 			responses.ERROR(w, http.StatusInternalServerError, nil)
 			return
 		}
@@ -89,24 +94,28 @@ func Deactivate(server *server.Server) http.HandlerFunc {
 
 		activeUser, err := user.GetActive(*server.DB, userID, nil)
 		if err != nil {
-			if errors.As(err, &user.IsInactive{}){
+			if errors.As(err, &user.IsInactive{}) {
 				responses.ERROR(w, http.StatusUnprocessableEntity, err)
 				return
-			}else{
+			} else {
 				responses.ERROR(w, http.StatusInternalServerError, errors.New("Incorrect details"))
 				return
 			}
 		}
 
-		_, err = user.Deactivate(*server.DB, *activeUser)
+		userDeactivatedEvent, err := user.Deactivate(*server.DB, *activeUser)
 		if err != nil {
-			if errors.As(err, &domain_errors.StateConflict{}){
+			if errors.As(err, &domain_errors.StateConflict{}) {
 				responses.ERROR(w, http.StatusUnprocessableEntity, err)
 				return
-			}else{
+			} else {
 				responses.ERROR(w, http.StatusInternalServerError, errors.New("Incorrect details"))
 				return
 			}
+		}
+
+		if err = server.EventEmitter.Emit(server.EventsTopic, &userDeactivatedEvent); err != nil {
+			log.Println("error while was emitting message", err)
 		}
 
 		responses.JSON(w, http.StatusOK, StatusResponse{"User deactivated"})
@@ -124,24 +133,28 @@ func Activate(server *server.Server) http.HandlerFunc {
 
 		inactiveUser, err := user.GetInactive(*server.DB, userID, nil)
 		if err != nil {
-			if errors.As(err, &user.IsActive{}){
+			if errors.As(err, &user.IsActive{}) {
 				responses.ERROR(w, http.StatusUnprocessableEntity, err)
 				return
-			}else{
+			} else {
 				responses.ERROR(w, http.StatusInternalServerError, errors.New("Incorrect details"))
 				return
 			}
 		}
 
-		_, err = user.Activate(*server.DB, *inactiveUser)
+		userActivatedEvent, err := user.Activate(*server.DB, *inactiveUser)
 		if err != nil {
-			if errors.As(err, &domain_errors.StateConflict{}){
+			if errors.As(err, &domain_errors.StateConflict{}) {
 				responses.ERROR(w, http.StatusUnprocessableEntity, err)
 				return
-			}else{
+			} else {
 				responses.ERROR(w, http.StatusInternalServerError, errors.New("Incorrect details"))
 				return
 			}
+		}
+
+		if err = server.EventEmitter.Emit(server.EventsTopic, &userActivatedEvent); err != nil {
+			log.Println("error while was emitting message", err)
 		}
 
 		responses.JSON(w, http.StatusOK, StatusResponse{"User activated"})
