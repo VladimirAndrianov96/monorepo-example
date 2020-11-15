@@ -11,7 +11,7 @@ type testResponse struct {
 }
 
 func returnTestValue(w http.ResponseWriter, r *http.Request){
-	json.NewEncoder(w).Encode((testResponse{"Hello world!"}))
+	json.NewEncoder(w).Encode(testResponse{"Hello world!"})
 }
 
 func main(){
