@@ -21,4 +21,5 @@ type Server struct {
 	HTTPClient HTTPClient
 	Port string
 	SecretKey string
+	TestAPIAddress string
 }

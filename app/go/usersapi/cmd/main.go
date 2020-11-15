@@ -112,6 +112,7 @@ func main() {
 	srv := server.Server{}
 	srv.Port = cfg.APIAddress
 	srv.SecretKey = cfg.SecretKey
+	srv.TestAPIAddress = cfg.TestAPIAddress
 
 	err = initializeAPI(
 		&srv,
