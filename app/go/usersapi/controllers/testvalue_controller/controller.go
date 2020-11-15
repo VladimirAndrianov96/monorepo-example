@@ -11,7 +11,7 @@ import (
 // GetTestValue from API to ensure the internal communication between services works fine.
 func GetTestValue(server *server.Server) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		req, err := http.NewRequest("GET", server.TestAPIAddress + "/api/get/testvalue", nil)
+		req, err := http.NewRequest("GET", "http://" + server.TestAPIAddress + "/api/get/testvalue", nil)
 		if err != nil{
 			responses.ERROR(w, http.StatusInternalServerError, nil)
 			return

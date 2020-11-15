@@ -10,4 +10,4 @@ secret_key: supersecret
 
 api_address: 127.0.0.1:3000
 
-test_api_address: http://127.0.0.1:10000
+test_api_address: 127.0.0.1:10000
