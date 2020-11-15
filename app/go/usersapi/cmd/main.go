@@ -6,16 +6,14 @@ import (
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/spf13/viper"
-	"go-ddd-cqrs-example/usersapi/routes"
+	"go-ddd-cqrs-example/domain/models/user"
 	"go-ddd-cqrs-example/usersapi/cmd/config"
+	"go-ddd-cqrs-example/usersapi/routes"
 	"go-ddd-cqrs-example/usersapi/server"
 	"go-ddd-cqrs-example/usersapi/utils"
-	"go-ddd-cqrs-example/domain/models/user"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"log"
 	"net/http"
-	"os"
 )
 
 var apiServer = server.Server{}
@@ -134,16 +132,10 @@ func main() {
 }
 
 func run(server *server.Server, addr string) error{
-	path, err := os.Getwd()
-	if err != nil {
-		log.Println(err)
-	}
-	fmt.Println(path)
-
 	defer server.DB.Close()
 
 	fmt.Println("Listening to " + addr)
-	err = http.ListenAndServeTLS(addr,
+	err := http.ListenAndServeTLS(addr,
 		"./usersapi/golangbackend.crt",
 		"./usersapi/golangbackend.key",
 		handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization", "Accept", "Accept-Language"}),

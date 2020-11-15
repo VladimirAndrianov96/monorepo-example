@@ -15,7 +15,7 @@ func GetDB(driver, username, password, port, host, database string) (*gorm.DB, e
 		fmt.Printf("Cannot connect to %s database", driver)
 		log.Fatal("Error:", err)
 	} else {
-		fmt.Printf("Connected to the %s database", driver)
+		fmt.Printf("Connected to the %s database \n", driver)
 	}
 
 	return DB, nil

@@ -15,6 +15,8 @@ func returnTestValue(w http.ResponseWriter, r *http.Request){
 }
 
 func main(){
+	port := ":10000"
+	log.Printf("Starting test service, Listening to: %s", port)
 	http.HandleFunc("/api/get/testvalue", returnTestValue)
-	log.Fatal(http.ListenAndServe(":10000", nil))
+	log.Fatal(http.ListenAndServe(port, nil))
 }

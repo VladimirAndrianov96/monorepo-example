@@ -1,5 +1,5 @@
 ---
-db_host: localhost
+db_host: live-postgres
 db_driver: postgres
 db_username: postgres
 db_password: password
@@ -8,6 +8,6 @@ db_port: 5432
 
 secret_key: supersecret
 
-api_address: 127.0.0.1:3000
+api_address: :8000
 
-test_api_address: 127.0.0.1:10000
+test_api_address: test-service:10000
