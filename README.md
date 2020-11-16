@@ -44,6 +44,14 @@ Docker and Docker-Compose to wrap the stuff and ease the deployment.
 SSL certificates for services available from the web.
 
 
-
-
-
+## TODO
+- Make configuration more flexible (switch between docker and local)
+- Add session handling endpoints
+- Integrate centralized logging solution
+- Add front-end dashboard to visualize the thing
+- Move from NSQ to RabbitMQ or create `jobs` db in table to fix the possible inconsistency
+- Add Kubernetes manifests
+- Improve Python and test service structure
+- Add more fields to tables to provide a better demo on indexes
+- Add NGINX as proxy for the future front-end
+- Improve shutdown logic, use channels
