@@ -10,12 +10,12 @@ import (
 	"github.com/onsi/gomega"
 	. "github.com/onsi/gomega"
 	"github.com/spf13/viper"
+	"go-ddd-cqrs-example/domain/models/user"
 	"go-ddd-cqrs-example/usersapi/cmd/config"
 	"go-ddd-cqrs-example/usersapi/controllers/login_controller"
 	"go-ddd-cqrs-example/usersapi/routes"
 	"go-ddd-cqrs-example/usersapi/server"
 	"go-ddd-cqrs-example/usersapi/utils"
-	"go-ddd-cqrs-example/domain/models/user"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -39,7 +39,7 @@ var _ = Describe("Login controller", func() {
 
 	// Set up database connection using configuration details.
 	cfg := config.Config{}
-	viper.AddConfigPath(dir+"/usersapi/cmd/config")
+	viper.AddConfigPath(dir + "/usersapi/cmd/config")
 	viper.SetConfigName("configuration")
 	viper.ReadInConfig()
 	viper.Unmarshal(&cfg)
@@ -77,7 +77,7 @@ var _ = Describe("Login controller", func() {
 			usr = user.PendingUser{
 				ID:           UserID,
 				EmailAddress: "user@example.com",
-				Password: "password",
+				Password:     "password",
 			}
 
 			_, err := user.Create(*db, usr)
@@ -87,7 +87,7 @@ var _ = Describe("Login controller", func() {
 			usr2 = user.PendingUser{
 				ID:           User2ID,
 				EmailAddress: "user2@example.com",
-				Password: "password",
+				Password:     "password",
 			}
 
 			_, err = user.Create(*db, usr2)
@@ -161,7 +161,7 @@ var _ = Describe("Login controller", func() {
 				for _, v := range samples {
 					loginRequest := login_controller.LoginRequest{
 						EmailAddress: v.email,
-						Password: v.password,
+						Password:     v.password,
 					}
 
 					requestBody, err := json.Marshal(loginRequest)

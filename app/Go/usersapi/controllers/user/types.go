@@ -1,8 +1,8 @@
 package user_controller
 
-type RegistrationRequest struct{
+type RegistrationRequest struct {
 	EmailAddress string `json:"email_address"`
-	Password string `json:"password"`
+	Password     string `json:"password"`
 }
 
 type RegistrationSuccessResponse struct {
@@ -10,6 +10,6 @@ type RegistrationSuccessResponse struct {
 	UserID string `json:"user_id"`
 }
 
-type StatusResponse struct{
+type StatusResponse struct {
 	Message string `json:"response"`
 }

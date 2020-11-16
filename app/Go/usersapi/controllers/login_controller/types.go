@@ -1,8 +1,8 @@
 package login_controller
 
-type LoginRequest struct{
+type LoginRequest struct {
 	EmailAddress string `json:"email_address"`
-	Password string `json:"password"`
+	Password     string `json:"password"`
 }
 
 type loginResponse struct {

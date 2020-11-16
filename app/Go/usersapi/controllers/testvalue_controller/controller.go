@@ -11,27 +11,27 @@ import (
 // GetTestValue from API to ensure the internal communication between services works fine.
 func GetTestValue(server *server.Server) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		req, err := http.NewRequest("GET", "http://" + server.TestAPIAddress + "/api/get/testvalue", nil)
-		if err != nil{
+		req, err := http.NewRequest("GET", "http://"+server.TestAPIAddress+"/api/get/testvalue", nil)
+		if err != nil {
 			responses.ERROR(w, http.StatusInternalServerError, nil)
 			return
 		}
 
 		res, err := server.HTTPClient.Do(req)
-		if err != nil{
+		if err != nil {
 			responses.ERROR(w, http.StatusInternalServerError, nil)
 			return
 		}
 
 		body, err := ioutil.ReadAll(res.Body)
-		if err != nil{
+		if err != nil {
 			responses.ERROR(w, http.StatusInternalServerError, nil)
 			return
 		}
 
 		testValueResponse := TestResponse{}
 		err = json.Unmarshal(body, &testValueResponse)
-		if err != nil{
+		if err != nil {
 			responses.ERROR(w, http.StatusInternalServerError, nil)
 			return
 		}

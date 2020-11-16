@@ -8,10 +8,10 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/spf13/viper"
-	"go-ddd-cqrs-example/usersapi/cmd/config"
-	"go-ddd-cqrs-example/usersapi/utils"
 	domain_errors "go-ddd-cqrs-example/domain/errors"
 	"go-ddd-cqrs-example/domain/models/user"
+	"go-ddd-cqrs-example/usersapi/cmd/config"
+	"go-ddd-cqrs-example/usersapi/utils"
 	"os"
 	"path"
 	"runtime"
@@ -33,7 +33,7 @@ var _ = Describe("User loading", func() {
 
 	// Set up database connection using configuration details.
 	cfg := config.Config{}
-	viper.AddConfigPath(dir+"/usersapi/cmd/config")
+	viper.AddConfigPath(dir + "/usersapi/cmd/config")
 	viper.SetConfigName("configuration")
 	viper.ReadInConfig()
 	viper.Unmarshal(&cfg)
@@ -44,7 +44,7 @@ var _ = Describe("User loading", func() {
 		cfg.DBPort,
 		cfg.DBHost,
 		cfg.DBName,
-		)
+	)
 	Expect(err).To(BeNil())
 
 	BeforeEach(func() {

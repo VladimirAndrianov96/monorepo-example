@@ -40,9 +40,9 @@ type User struct {
 }
 
 // VerifyUserPassword with the hash stored in database.
-func VerifyUserPassword(db *gorm.DB, emailAddress string, password string) error{
+func VerifyUserPassword(db *gorm.DB, emailAddress string, password string) error {
 	userPasswordHash, err := GetUserPasswordHash(*db, emailAddress, nil)
-	if err != nil{
+	if err != nil {
 		return err
 	}
 
@@ -52,7 +52,7 @@ func VerifyUserPassword(db *gorm.DB, emailAddress string, password string) error
 // Hash the password.
 func Hash(password string) (*string, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 
@@ -68,7 +68,7 @@ func isEmailAddressUnique(db gorm.DB, emailAddress string) (error, bool) {
 		"email_address = ?",
 		emailAddress,
 	).First(&user).Error; err != nil {
-		if errors.As(err, &gorm.ErrRecordNotFound){
+		if errors.As(err, &gorm.ErrRecordNotFound) {
 			return nil, true
 		}
 		return err, false

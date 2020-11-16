@@ -11,14 +11,14 @@ import (
 func GetActive(db gorm.DB, pk uuid.UUID, version *uint32) (*ActiveUser, error) {
 	var user User
 
-	err := db.Model(&user).Where("id = ?", pk).Take(&user).Error;
+	err := db.Model(&user).Where("id = ?", pk).Take(&user).Error
 	if gorm.IsRecordNotFoundError(err) {
 		return nil, fmt.Errorf("User not found: %w", UserNotFound{})
-	}else if user.IsActive == false {
+	} else if user.IsActive == false {
 		return nil, fmt.Errorf("Invariant failed: %w", IsInactive{})
 	} else if version != nil && user.Version != *version {
 		return nil, fmt.Errorf("Invalid version tag: %w", domain_errors.InvalidVersion{})
-	}else if err != nil{
+	} else if err != nil {
 		return nil, fmt.Errorf("Error loading active user: %w", err)
 	}
 
@@ -33,14 +33,14 @@ func GetActive(db gorm.DB, pk uuid.UUID, version *uint32) (*ActiveUser, error) {
 func GetInactive(db gorm.DB, pk uuid.UUID, version *uint32) (*InactiveUser, error) {
 	var user User
 
-	err := db.Model(&user).Where("id = ?", pk).Take(&user).Error;
+	err := db.Model(&user).Where("id = ?", pk).Take(&user).Error
 	if gorm.IsRecordNotFoundError(err) {
 		return nil, fmt.Errorf("User not found: %w", UserNotFound{})
-	}else if user.IsActive == true {
+	} else if user.IsActive == true {
 		return nil, fmt.Errorf("Invariant failed: %w", IsActive{})
 	} else if version != nil && user.Version != *version {
 		return nil, fmt.Errorf("Invalid version tag: %w", domain_errors.InvalidVersion{})
-	} else if err != nil{
+	} else if err != nil {
 		return nil, fmt.Errorf("Error loading inactive user: %w", err)
 	}
 
@@ -55,14 +55,14 @@ func GetInactive(db gorm.DB, pk uuid.UUID, version *uint32) (*InactiveUser, erro
 func GetActiveByEmail(db gorm.DB, emailAddress string, version *uint32) (*ActiveUser, error) {
 	var user User
 
-	err := db.Model(&user).Where("email_address = ?", emailAddress).Take(&user).Error;
+	err := db.Model(&user).Where("email_address = ?", emailAddress).Take(&user).Error
 	if gorm.IsRecordNotFoundError(err) {
 		return nil, fmt.Errorf("User not found: %w", UserNotFound{})
 	} else if version != nil && user.Version != *version {
 		return nil, fmt.Errorf("Invalid version tag: %w", domain_errors.InvalidVersion{})
-	}else if user.IsActive == false {
+	} else if user.IsActive == false {
 		return nil, fmt.Errorf("Invariant failed: %w", IsInactive{})
-	}else if err != nil{
+	} else if err != nil {
 		return nil, fmt.Errorf("Error loading active user: %w", err)
 	}
 
@@ -74,15 +74,15 @@ func GetActiveByEmail(db gorm.DB, emailAddress string, version *uint32) (*Active
 }
 
 // GetUserPasswordHash to compare hashed with entered password.
-func GetUserPasswordHash(db gorm.DB, email string, version *uint32) (*string, error){
+func GetUserPasswordHash(db gorm.DB, email string, version *uint32) (*string, error) {
 	var user User
 
-	err := db.Model(user).Select("password").Where("email_address = ?", email).Take(&user).Error;
+	err := db.Model(user).Select("password").Where("email_address = ?", email).Take(&user).Error
 	if gorm.IsRecordNotFoundError(err) {
 		return nil, fmt.Errorf("User not found: %w", UserNotFound{})
-	}else if version != nil && user.Version != *version {
+	} else if version != nil && user.Version != *version {
 		return nil, fmt.Errorf("Invalid version tag: %w", domain_errors.InvalidVersion{})
-	} else if err != nil{
+	} else if err != nil {
 		return nil, fmt.Errorf("Error loading user password hash: %w", err)
 	}
 

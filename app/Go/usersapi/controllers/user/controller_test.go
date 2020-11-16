@@ -11,13 +11,13 @@ import (
 	"github.com/onsi/gomega"
 	. "github.com/onsi/gomega"
 	"github.com/spf13/viper"
+	"go-ddd-cqrs-example/domain/models/user"
 	"go-ddd-cqrs-example/usersapi/auth"
 	"go-ddd-cqrs-example/usersapi/cmd/config"
 	user_controller "go-ddd-cqrs-example/usersapi/controllers/user"
 	"go-ddd-cqrs-example/usersapi/routes"
 	"go-ddd-cqrs-example/usersapi/server"
 	"go-ddd-cqrs-example/usersapi/utils"
-	"go-ddd-cqrs-example/domain/models/user"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -41,7 +41,7 @@ var _ = Describe("User controller", func() {
 
 	// Set up database connection using configuration details.
 	cfg := config.Config{}
-	viper.AddConfigPath(dir+"/usersapi/cmd/config")
+	viper.AddConfigPath(dir + "/usersapi/cmd/config")
 	viper.SetConfigName("configuration")
 	viper.ReadInConfig()
 	viper.Unmarshal(&cfg)
@@ -79,14 +79,14 @@ var _ = Describe("User controller", func() {
 			usr = user.PendingUser{
 				ID:           UserID,
 				EmailAddress: "user@example.com",
-				Password: "password",
+				Password:     "password",
 			}
 
 			User2ID := uuid.Must(uuid.NewV4())
 			usr2 = user.PendingUser{
 				ID:           User2ID,
 				EmailAddress: "user2@example.com",
-				Password: "password",
+				Password:     "password",
 			}
 
 			_, err = user.Create(*db, usr2)
@@ -142,7 +142,7 @@ var _ = Describe("User controller", func() {
 				for _, v := range samples {
 					registrationRequest := user_controller.RegistrationRequest{
 						EmailAddress: v.email,
-						Password: v.password,
+						Password:     v.password,
 					}
 
 					requestBody, err := json.Marshal(registrationRequest)
@@ -189,7 +189,7 @@ var _ = Describe("User controller", func() {
 			usr = user.PendingUser{
 				ID:           UserID,
 				EmailAddress: "user@example.com",
-				Password: "password",
+				Password:     "password",
 			}
 
 			_, err = user.Create(*db, usr)
@@ -210,17 +210,17 @@ var _ = Describe("User controller", func() {
 					errorMessage string
 				}{
 					{
-						token: tokenString,
+						token:        tokenString,
 						statusCode:   http.StatusOK,
 						errorMessage: "",
 					},
 					{
-						token: tokenString,
+						token:        tokenString,
 						statusCode:   http.StatusUnprocessableEntity,
 						errorMessage: "Invariant failed: User is inactive",
 					},
 					{
-						token: "wrongToken",
+						token:        "wrongToken",
 						statusCode:   http.StatusUnauthorized,
 						errorMessage: "",
 					},
@@ -262,7 +262,7 @@ var _ = Describe("User controller", func() {
 			usr = user.PendingUser{
 				ID:           UserID,
 				EmailAddress: "user@example.com",
-				Password: "password",
+				Password:     "password",
 			}
 
 			_, err = user.Create(*db, usr)
@@ -289,17 +289,17 @@ var _ = Describe("User controller", func() {
 					errorMessage string
 				}{
 					{
-						token: tokenString,
+						token:        tokenString,
 						statusCode:   http.StatusOK,
 						errorMessage: "",
 					},
 					{
-						token: tokenString,
+						token:        tokenString,
 						statusCode:   http.StatusUnprocessableEntity,
 						errorMessage: "Invariant failed: User is active",
 					},
 					{
-						token: "wrongToken",
+						token:        "wrongToken",
 						statusCode:   http.StatusUnauthorized,
 						errorMessage: "",
 					},

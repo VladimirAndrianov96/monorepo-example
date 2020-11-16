@@ -7,14 +7,14 @@ import (
 )
 
 type testResponse struct {
-	Value  string `json:"value"`
+	Value string `json:"value"`
 }
 
-func returnTestValue(w http.ResponseWriter, r *http.Request){
+func returnTestValue(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(testResponse{"Hello world!"})
 }
 
-func main(){
+func main() {
 	port := ":10000"
 	log.Printf("Starting test service, Listening to: %s", port)
 	http.HandleFunc("/api/get/testvalue", returnTestValue)

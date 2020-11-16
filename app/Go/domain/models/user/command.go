@@ -23,15 +23,15 @@ func Create(db gorm.DB, pendingUser PendingUser) (*UserCreated, error) {
 		return nil, err
 	}
 
-	err, exists := isEmailAddressUnique(db, pendingUser.EmailAddress);
+	err, exists := isEmailAddressUnique(db, pendingUser.EmailAddress)
 	if err != nil {
 		return nil, err
-	}else if exists != true{
+	} else if exists != true {
 		return nil, AlreadyExists{}
 	}
 
 	passwordHash, err := Hash(pendingUser.Password)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 
@@ -69,10 +69,10 @@ func Deactivate(db gorm.DB, activeUser ActiveUser) (*UserDeactivated, error) {
 	// Update attributes with `map` instead.
 	// https://gorm.io/docs/update.html#Updates-multiple-columns
 	result := db.Model(&User{}).
-	Where("id = ? AND version = ?",
-		activeUser.ID,
-		activeUser.Version,
-	).Updates(map[string]interface{}{"is_active": false, "version": inactiveUser.Version})
+		Where("id = ? AND version = ?",
+			activeUser.ID,
+			activeUser.Version,
+		).Updates(map[string]interface{}{"is_active": false, "version": inactiveUser.Version})
 
 	if result.Error != nil {
 		return nil, fmt.Errorf("Error deactivating active user: %w", result.Error)
@@ -98,9 +98,9 @@ func Activate(db gorm.DB, inactiveUser InactiveUser) (*UserActivated, error) {
 	// https://gorm.io/docs/update.html#Updates-multiple-columns
 	result := db.Model(&User{}).
 		Where("id = ? AND version = ?",
-		inactiveUser.ID,
-		inactiveUser.Version,
-	).Updates(map[string]interface{}{"is_active": true, "version": activeUser.Version})
+			inactiveUser.ID,
+			inactiveUser.Version,
+		).Updates(map[string]interface{}{"is_active": true, "version": activeUser.Version})
 
 	if result.Error != nil {
 		return nil, fmt.Errorf("Error activating inactive user: %w", result.Error)

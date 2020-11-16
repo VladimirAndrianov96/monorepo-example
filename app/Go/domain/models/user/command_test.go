@@ -8,15 +8,14 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/spf13/viper"
-	"go-ddd-cqrs-example/usersapi/cmd/config"
-	"go-ddd-cqrs-example/usersapi/utils"
 	domain_errors "go-ddd-cqrs-example/domain/errors"
 	"go-ddd-cqrs-example/domain/models/user"
+	"go-ddd-cqrs-example/usersapi/cmd/config"
+	"go-ddd-cqrs-example/usersapi/utils"
 	"os"
 	"path"
 	"runtime"
 )
-
 
 var _ = Describe("Managing users", func() {
 	var (
@@ -34,7 +33,7 @@ var _ = Describe("Managing users", func() {
 
 	// Set up database connection using configuration details.
 	cfg := config.Config{}
-	viper.AddConfigPath(dir+"/usersapi/cmd/config")
+	viper.AddConfigPath(dir + "/usersapi/cmd/config")
 	viper.SetConfigName("configuration")
 	viper.ReadInConfig()
 	viper.Unmarshal(&cfg)
@@ -180,9 +179,9 @@ var _ = Describe("Managing users", func() {
 				result := db.Model(&user.User{}).
 					Where("id = ?", activeUser.ID).
 					Updates(user.User{
-						Version: activeUser.Version+1,
+						Version: activeUser.Version + 1,
 					},
-				)
+					)
 
 				Expect(err).To(BeNil())
 				Expect(result.RowsAffected).To(Equal(int64(1)))
@@ -252,7 +251,7 @@ var _ = Describe("Managing users", func() {
 				result := db.Model(&user.User{}).
 					Where("id = ?", inactiveUser.ID).
 					Updates(user.User{
-						Version: inactiveUser.Version+1,
+						Version: inactiveUser.Version + 1,
 					},
 					)
 

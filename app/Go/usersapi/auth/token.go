@@ -3,8 +3,8 @@ package auth
 import (
 	"errors"
 	"fmt"
-	"go-ddd-cqrs-example/usersapi/server"
 	"go-ddd-cqrs-example/domain/models/user"
+	"go-ddd-cqrs-example/usersapi/server"
 	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
@@ -84,10 +84,10 @@ func ExtractUserID(server server.Server, r *http.Request) (uuid.UUID, error) {
 
 // Passed inside the jwt.Parse function which internally validates the token.
 // If token signed correctly then it uses the key to verify the signature.
-func getTokenKeyFunc(secretKey string)  jwt.Keyfunc {
-	return func(token * jwt.Token)(interface {}, error) {
+func getTokenKeyFunc(secretKey string) jwt.Keyfunc {
+	return func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-		return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 		}
 		return []byte(secretKey), nil
 	}
@@ -112,9 +112,9 @@ func extractJWTToken(r *http.Request) string {
 func SignIn(server *server.Server, email, password string) (*string, *string, error) {
 	var err error
 
-	userReceived, err := user.GetActiveByEmail(*server.DB, email,nil)
+	userReceived, err := user.GetActiveByEmail(*server.DB, email, nil)
 	if err != nil {
-		if errors.As(err, &user.IsInactive{}){
+		if errors.As(err, &user.IsInactive{}) {
 			return nil, nil, err
 		}
 		return nil, nil, errors.New("Incorrect details")
@@ -137,7 +137,3 @@ func SignIn(server *server.Server, email, password string) (*string, *string, er
 
 	return token, &userID, nil
 }
-
-
-
-

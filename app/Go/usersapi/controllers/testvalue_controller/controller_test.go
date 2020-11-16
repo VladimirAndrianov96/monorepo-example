@@ -40,7 +40,7 @@ var _ = Describe("Login controller", func() {
 
 	// Set up database connection using configuration details.
 	cfg := config.Config{}
-	viper.AddConfigPath(dir+"/usersapi/cmd/config")
+	viper.AddConfigPath(dir + "/usersapi/cmd/config")
 	viper.SetConfigName("configuration")
 	viper.ReadInConfig()
 	viper.Unmarshal(&cfg)
@@ -70,7 +70,7 @@ var _ = Describe("Login controller", func() {
 
 			})
 			It("returns an OK status and successful response message", func() {
-				req, err := http.NewRequest("GET", "https://" + cfg.APIAddress + "/api/get/testvalue", nil)
+				req, err := http.NewRequest("GET", "https://"+cfg.APIAddress+"/api/get/testvalue", nil)
 				Expect(err).To(BeNil())
 				Expect(req).ToNot(BeNil())
 
@@ -104,7 +104,7 @@ var _ = Describe("Login controller", func() {
 
 			})
 			It("returns error response", func() {
-				req, err := http.NewRequest("GET", "https://" + cfg.APIAddress + "/api/get/testvalue", nil)
+				req, err := http.NewRequest("GET", "https://"+cfg.APIAddress+"/api/get/testvalue", nil)
 				Expect(err).To(BeNil())
 				Expect(req).ToNot(BeNil())
 

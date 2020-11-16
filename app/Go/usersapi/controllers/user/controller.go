@@ -58,7 +58,7 @@ func Register(server *server.Server) http.HandlerFunc {
 			}
 		}
 
-		if userCreatedEvent != nil{
+		if userCreatedEvent != nil {
 			payload, err := json.Marshal(userCreatedEvent)
 			if err != nil {
 				log.Println(err)
@@ -121,7 +121,7 @@ func Deactivate(server *server.Server) http.HandlerFunc {
 			}
 		}
 
-		if userDeactivatedEvent != nil{
+		if userDeactivatedEvent != nil {
 			payload, err := json.Marshal(userDeactivatedEvent)
 			if err != nil {
 				log.Println(err)
@@ -167,7 +167,7 @@ func Activate(server *server.Server) http.HandlerFunc {
 			}
 		}
 
-		if userActivatedEvent != nil{
+		if userActivatedEvent != nil {
 			payload, err := json.Marshal(userActivatedEvent)
 			if err != nil {
 				log.Println(err)
