@@ -4,7 +4,7 @@ services:
   app:
     container_name: users_backend
     build:
-      context: ./go
+      context: ./Go
       dockerfile: usersapi/Dockerfile
     ports: 
       - "8000:8000"
@@ -19,7 +19,7 @@ services:
   test-service:
     container_name: test_backend
     build:
-      context: ./go
+      context: ./Go
       dockerfile:   testresponseapi/Dockerfile
     ports:
       - "10000:10000"
