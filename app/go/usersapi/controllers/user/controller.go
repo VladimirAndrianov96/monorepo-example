@@ -64,7 +64,7 @@ func Register(server *server.Server) http.HandlerFunc {
 				log.Println(err)
 			}
 
-			if err = server.EventEmitter.Publish(server.EventsTopic, payload); err != nil {
+			if err = server.EventEmitter.Publish("new_user", payload); err != nil {
 				log.Println("error while was emitting message", err)
 			}
 		}
@@ -127,7 +127,7 @@ func Deactivate(server *server.Server) http.HandlerFunc {
 				log.Println(err)
 			}
 
-			if err = server.EventEmitter.Publish(server.EventsTopic, payload); err != nil {
+			if err = server.EventEmitter.Publish("deactivated_user", payload); err != nil {
 				log.Println("error while was emitting message", err)
 			}
 		}
@@ -173,7 +173,7 @@ func Activate(server *server.Server) http.HandlerFunc {
 				log.Println(err)
 			}
 
-			if err = server.EventEmitter.Publish(server.EventsTopic, payload); err != nil {
+			if err = server.EventEmitter.Publish("activated_user", payload); err != nil {
 				log.Println("error while was emitting message", err)
 			}
 		}

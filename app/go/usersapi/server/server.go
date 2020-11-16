@@ -24,5 +24,4 @@ type Server struct {
 	SecretKey      string
 	TestAPIAddress string
 	EventEmitter   nsq.Producer
-	EventsTopic    string
 }

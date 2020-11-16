@@ -11,5 +11,3 @@ secret_key: supersecret
 api_address: :8000
 
 test_api_address: test-service:10000
-
-events_topic: events

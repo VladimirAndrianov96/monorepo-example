@@ -122,7 +122,6 @@ func main() {
 	srv.SecretKey = cfg.SecretKey
 	srv.TestAPIAddress = cfg.TestAPIAddress
 	srv.EventEmitter = *producer
-	srv.EventsTopic = cfg.EventsTopic
 
 	err = initializeAPI(
 		&srv,

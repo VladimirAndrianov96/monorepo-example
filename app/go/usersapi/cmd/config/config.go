@@ -13,6 +13,4 @@ type Config struct {
 
 	APIAddress     string `mapstructure:"api_address"`
 	TestAPIAddress string `mapstructure:"test_api_address"`
-
-	EventsTopic string `mapstructure:"events_topic"`
 }
