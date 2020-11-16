@@ -24,8 +24,6 @@ services:
     ports:
       - "10000:10000"
     restart: unless-stopped
-    volumes:
-      - usersapi:/usr/src/testapp/
     networks:
       - monorepo_network
 

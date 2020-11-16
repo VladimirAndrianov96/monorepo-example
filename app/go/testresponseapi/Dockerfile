@@ -9,7 +9,7 @@ LABEL maintainer="Vladimir Andrianov"
 RUN apk update && apk add --no-cache git
 
 # Set the current working directory inside the container.
-WORKDIR /testapp
+WORKDIR /app
 
 # Copy go mod and sum files.
 COPY go.mod go.sum ./
@@ -27,13 +27,13 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main testresponse
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
 
-WORKDIR /testapp
+WORKDIR /app
 
 # Expose port 10000 to the outside world.
 EXPOSE 10000
 
 # Copy the Pre-built binary file from the previous stage.
-COPY --from=builder /testapp/main .
+COPY --from=builder /app/main .
 
 # Command to run the executable
 CMD ["./main"]
