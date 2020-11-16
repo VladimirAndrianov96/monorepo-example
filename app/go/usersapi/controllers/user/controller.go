@@ -58,8 +58,15 @@ func Register(server *server.Server) http.HandlerFunc {
 			}
 		}
 
-		if err = server.EventEmitter.Emit(server.EventsTopic, &userCreatedEvent); err != nil {
-			log.Println("error while was emitting message", err)
+		if userCreatedEvent != nil{
+			payload, err := json.Marshal(userCreatedEvent)
+			if err != nil {
+				log.Println(err)
+			}
+
+			if err = server.EventEmitter.Publish(server.EventsTopic, payload); err != nil {
+				log.Println("error while was emitting message", err)
+			}
 		}
 
 		pkUUID, err := uuid.FromString(userCreatedEvent.UserID)
@@ -114,8 +121,15 @@ func Deactivate(server *server.Server) http.HandlerFunc {
 			}
 		}
 
-		if err = server.EventEmitter.Emit(server.EventsTopic, &userDeactivatedEvent); err != nil {
-			log.Println("error while was emitting message", err)
+		if userDeactivatedEvent != nil{
+			payload, err := json.Marshal(userDeactivatedEvent)
+			if err != nil {
+				log.Println(err)
+			}
+
+			if err = server.EventEmitter.Publish(server.EventsTopic, payload); err != nil {
+				log.Println("error while was emitting message", err)
+			}
 		}
 
 		responses.JSON(w, http.StatusOK, StatusResponse{"User deactivated"})
@@ -153,8 +167,15 @@ func Activate(server *server.Server) http.HandlerFunc {
 			}
 		}
 
-		if err = server.EventEmitter.Emit(server.EventsTopic, &userActivatedEvent); err != nil {
-			log.Println("error while was emitting message", err)
+		if userActivatedEvent != nil{
+			payload, err := json.Marshal(userActivatedEvent)
+			if err != nil {
+				log.Println(err)
+			}
+
+			if err = server.EventEmitter.Publish(server.EventsTopic, payload); err != nil {
+				log.Println("error while was emitting message", err)
+			}
 		}
 
 		responses.JSON(w, http.StatusOK, StatusResponse{"User activated"})

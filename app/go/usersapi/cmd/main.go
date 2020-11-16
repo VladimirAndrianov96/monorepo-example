@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	bus "github.com/rafaeljesus/nsq-event-bus"
+	"github.com/nsqio/go-nsq"
 	"github.com/spf13/viper"
 	"go-ddd-cqrs-example/domain/models/user"
 	"go-ddd-cqrs-example/usersapi/cmd/config"
@@ -14,6 +14,7 @@ import (
 	"go-ddd-cqrs-example/usersapi/utils"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+	"log"
 	"net/http"
 )
 
@@ -108,16 +109,19 @@ func main() {
 		zap.S().Fatal(err)
 	}
 
-	eventEmitter, err := bus.NewEmitter(bus.EmitterConfig{})
+	nsqConfig := nsq.NewConfig()
+
+	//Creating the Producer using NSQD Address
+	producer, err := nsq.NewProducer("nsqd:4150", nsqConfig)
 	if err != nil {
-		zap.S().Fatal(err)
+		log.Fatal(err)
 	}
 
 	srv := server.Server{}
 	srv.Port = cfg.APIAddress
 	srv.SecretKey = cfg.SecretKey
 	srv.TestAPIAddress = cfg.TestAPIAddress
-	srv.EventEmitter = *eventEmitter
+	srv.EventEmitter = *producer
 	srv.EventsTopic = cfg.EventsTopic
 
 	err = initializeAPI(

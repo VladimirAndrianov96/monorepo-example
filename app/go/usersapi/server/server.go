@@ -4,7 +4,7 @@ package server
 import (
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
-	"github.com/rafaeljesus/nsq-event-bus"
+	"github.com/nsqio/go-nsq"
 	"io"
 	"net/http"
 )
@@ -23,6 +23,6 @@ type Server struct {
 	Port           string
 	SecretKey      string
 	TestAPIAddress string
-	EventEmitter   bus.Emitter
+	EventEmitter   nsq.Producer
 	EventsTopic    string
 }
