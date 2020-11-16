@@ -24,11 +24,11 @@ Get in the required service directory and execute the `docker-compose up --build
 Integrated pgAdmin, PostgreSQL, NSQ (Admin, lookup service, queue) for easy access to admin tools out of the box.
 
 CQRS - Command Query Responsibility Segregation, commands and queries are split into separate pieces:
-- command: https://github.com/VladimirAndrianov96/monorepo-example/blob/main/app/go/domain/models/user/command.go
-- query: https://github.com/VladimirAndrianov96/monorepo-example/blob/main/app/go/domain/models/user/query.go
+- command: https://github.com/VladimirAndrianov96/monorepo-example/blob/main/app/Go/domain/models/user/command.go
+- query: https://github.com/VladimirAndrianov96/monorepo-example/blob/main/app/Go/domain/models/user/query.go
 
 DDD - Domain-Driven Design
-- shared domain logic: https://github.com/VladimirAndrianov96/monorepo-example/tree/main/app/go/domain
+- shared domain logic: https://github.com/VladimirAndrianov96/monorepo-example/tree/main/app/Go/domain
 
 API and RPC for service communication.
 
