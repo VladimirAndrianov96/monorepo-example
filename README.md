@@ -1,6 +1,6 @@
  > One repository to rule them all.  
  
-## Summary
+# Summary
 
 By a monorepo I mean a single repository that contains multiple projects written in different languages as well. 
 It's a proposal on multi-stack monorepo which is based on root directory stack segregation and uses shared domain models in the context of the same language to make code reusable.
