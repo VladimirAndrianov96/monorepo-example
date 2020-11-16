@@ -4,7 +4,7 @@ services:
   app:
     container_name: users_backend
     build:
-      context: ""
+      context: ./go
       dockerfile: usersapi/Dockerfile
     ports: 
       - "8000:8000"
@@ -19,8 +19,8 @@ services:
   test-service:
     container_name: test_backend
     build:
-      context: ""
-      dockerfile: testresponseapi/Dockerfile
+      context: ./go
+      dockerfile:   testresponseapi/Dockerfile
     ports:
       - "10000:10000"
     restart: unless-stopped
@@ -28,6 +28,18 @@ services:
       - usersapi:/usr/src/testapp/
     networks:
       - monorepo_network
+
+  python-logger:
+    container_name: python_logger
+    build:
+      context: ./Python
+      dockerfile: eventslog/Dockerfile
+    ports:
+      - "10500:10500"
+    restart: unless-stopped
+    networks:
+      - monorepo_network
+
 
   live-postgres:
     image: postgres:latest
@@ -41,9 +53,10 @@ services:
       - "5432:5432"
     volumes:
       - database_postgres:/var/lib/postgresql/data
+    restart: unless-stopped
     networks:
       - monorepo_network
-    
+
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin_container
@@ -54,28 +67,39 @@ services:
       - live-postgres
     ports:
       - "5050:80"
+    restart: unless-stopped
     networks:
       - monorepo_network
-    restart: unless-stopped
+
 
   nsqlookupd:
     image: nsqio/nsq
-    command: >
-      /nsqlookupd
-      -broadcast-address localhost:4160
+    command: /nsqlookupd
     ports:
       - "4160:4160"
       - "4161:4161"
-
+    networks:
+      - monorepo_network
   nsqd:
     image: nsqio/nsq
-    command: >
-      /nsqd
-      -broadcast-address localhost
-      -lookupd-tcp-address nsqlookupd:4160
+    command:  /nsqd --broadcast-address=nsqd --lookupd-tcp-address=nsqlookupd:4160
+    depends_on:
+      - nsqlookupd
     ports:
-      - "4150:4150"
       - "4151:4151"
+      - "4150:4150"
+    networks:
+      - monorepo_network
+  nsqadmin:
+    image: nsqio/nsq
+    command: /nsqadmin --lookupd-http-address=nsqlookupd:4161
+    depends_on:
+      - nsqlookupd
+    ports:
+      - "4171:4171"
+    networks:
+      - monorepo_network
+
 
 volumes:
   usersapi:
