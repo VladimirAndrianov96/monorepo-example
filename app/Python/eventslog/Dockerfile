@@ -4,4 +4,4 @@ ADD eventslog/server.py /
 
 RUN pip install pynsq
 
-CMD [ "python", "./server.py" ]
+CMD [ "python", "-u", "./server.py" ]
